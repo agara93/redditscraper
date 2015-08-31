@@ -23,13 +23,11 @@ newsales[0..4].each do |nw|
     link = nw.at_css('@href')
     puts "Store link: #{slink.text}"
     puts "Reddit thread link:  #{link.text}"
-    puts nw.at_css("div[@class='commentcount']/a").text + " comments" + " | " + 
+    puts nw.at_css("div[@class='commentcount']/a").text + " comments | " + 
          nw.at_css("/div[@class='entry unvoted']/div/span[1]/span")
-    if time = nw.at_css("/div[@class='entry unvoted']/div/span[1]/time")
-        puts "Time posted: #{time.text}"
-    else
-        print " "
-    end
+    time = nw.at_css("/div[@class='entry unvoted']/div/span[1]/time")
+    timeutc = nw.at_css("div[@class='entry unvoted']/div/span[1]/time/@title")
+    puts "Time posted: #{time.text} | " + "#{timeutc.text}"
     puts " "
 end
 
@@ -48,13 +46,11 @@ hotsales[1..-1].each do |sl|
     link = sl.at_css('@href')
     puts "Store link: #{slink.text}"
     puts "Reddit thread link:  #{link.text}"
-    puts sl.at_css("div[@class='commentcount']/a").text + " comments" + " | " + 
+    puts sl.at_css("div[@class='commentcount']/a").text + " comments | " + 
          sl.at_css("/div[@class='entry unvoted']/div/span[1]/span")
-    if time = sl.at_css("/div[@class='entry unvoted']/div/span[1]/time")
-        puts "Time posted: #{time.text}"
-    else
-        print " "
-    end
+    time = sl.at_css("/div[@class='entry unvoted']/div/span[1]/time")
+    timeutc = sl.at_css("/div[@class='entry unvoted']/div/span[1]/time/@title")
+    puts "Time posted: #{time.text} | " + "#{timeutc.text}"
     puts " "
 end
 

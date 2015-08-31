@@ -25,11 +25,9 @@ newdeals[0..4].each do |nd|
     puts "Reddit thread link: #{rlink.text}"
     puts nd.at_css("/div[@class='commentcount']/a").text + " comments" + " | " +
          nd.at_css("/div[@class='entry unvoted']/div/span[1]/time")
-    if time = nd.at_css("/div[@class='entru unvoted']/div/span[1]/time")
-        puts "Time posted: #{time.text}"
-    else
-        print " "
-    end
+    time = nd.at_css("/div[@class='entry unvoted']/div/span[1]/time")
+    timeutc = nd.at_css("/div[@class='entry unvoted']/div/span[1]/time/@title")
+    puts "Time posted: #{time.text} | " + "#{timeutc.text}"
     puts " "
 end
 
@@ -50,11 +48,9 @@ deals[1..-1].each do |dl|
     puts "Reddit thread link: #{rlink.text}"
     puts dl.at_css("div[@class='commentcount']/a").text + " comments" + " | " +
          dl.at_css("/div[@class='entry unvoted']/div/span[1]/span")
-    if time = dl.at_css("/div[@class='entry unvoted']/div/span[1]/time")
-        puts "Time posted: #{time.text}"
-    else
-        print " "
-    end
+    time = dl.at_css("/div[@class='entry unvoted']/div/span[1]/time")
+    timeutc = dl.at_css("/div[@class='entry unvoted']/div/span[1]/time/@title")
+    puts "Time posted: #{time.text} | " + "#{timeutc.text}"
     puts " "
 end
 
