@@ -16,7 +16,7 @@ newsales = docnew.xpath("//div[@class='content']/div[@id='siteTable']/div")
 puts "5 recent deals"
 puts " "
 
-newsales[0..5].each do |nw|
+newsales[0..4].each do |nw|
     count+=1
     puts nw.at_css('p/a').text
     slink = nw.at_css("p[@class='title']/a/@href")
