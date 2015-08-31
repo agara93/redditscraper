@@ -19,8 +19,10 @@ puts " "
 newsales[0..5].each do |nw|
     count+=1
     puts nw.at_css('p/a').text
+    slink = nw.at_css("p[@class='title']/a/@href")
     link = nw.at_css('@href')
-    puts "link:  #{link.text}"
+    puts "Store link: #{slink.text}"
+    puts "Reddit thread link:  #{link.text}"
     puts nw.at_css("div[@class='commentcount']/a").text + " comments" + " | " + 
          nw.at_css("/div[@class='entry unvoted']/div/span[1]/span")
     if time = nw.at_css("/div[@class='entry unvoted']/div/span[1]/time")
@@ -42,8 +44,10 @@ hotsales = dochot.xpath("//div[@class='content']/div[@id='siteTable']/div")
 hotsales[1..-1].each do |sl|
     count+=1
     puts sl.at_css('p/a').text
+    slink = sl.at_css("p[@class='title']/a/@href")
     link = sl.at_css('@href')
-    puts "link:  #{link.text}"
+    puts "Store link: #{slink.text}"
+    puts "Reddit thread link:  #{link.text}"
     puts sl.at_css("div[@class='commentcount']/a").text + " comments" + " | " + 
          sl.at_css("/div[@class='entry unvoted']/div/span[1]/span")
     if time = sl.at_css("/div[@class='entry unvoted']/div/span[1]/time")
