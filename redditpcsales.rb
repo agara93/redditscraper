@@ -1,0 +1,58 @@
+require 'open-uri'
+require 'nokogiri'
+
+count=0
+
+puts " "
+puts "======================="
+puts "Reddit Build-a-PC Sales"
+puts "======================="
+puts " "
+
+docnew = Nokogiri::HTML(open("https://www.reddit.com/r/buildapcsales/new/.compact"))
+docnew.remove_namespaces!
+newsales = docnew.xpath("//div[@class='content']/div[@id='siteTable']/div")
+
+puts "5 recent deals"
+puts " "
+
+newsales[0..5].each do |nw|
+    count+=1
+    puts nw.at_css('p/a').text
+    link = nw.at_css('@href')
+    puts "link:  #{link.text}"
+    puts nw.at_css("div[@class='commentcount']/a").text + " comments" + " | " + 
+         nw.at_css("/div[@class='entry unvoted']/div/span[1]/span")
+    if time = nw.at_css("/div[@class='entry unvoted']/div/span[1]/time")
+        puts "Time posted: #{time.text}"
+    else
+        print " "
+    end
+    puts " "
+end
+
+puts "Popular Deals"
+puts "============="
+puts " "
+
+dochot = Nokogiri::HTML(open("https://i.reddit.com/r/buildapcsales"))
+dochot.remove_namespaces!
+hotsales = dochot.xpath("//div[@class='content']/div[@id='siteTable']/div")
+
+hotsales[1..-1].each do |sl|
+    count+=1
+    puts sl.at_css('p/a').text
+    link = sl.at_css('@href')
+    puts "link:  #{link.text}"
+    puts sl.at_css("div[@class='commentcount']/a").text + " comments" + " | " + 
+         sl.at_css("/div[@class='entry unvoted']/div/span[1]/span")
+    if time = sl.at_css("/div[@class='entry unvoted']/div/span[1]/time")
+        puts "Time posted: #{time.text}"
+    else
+        print " "
+    end
+    puts " "
+end
+
+puts "#{count} sales found"
+puts " "
