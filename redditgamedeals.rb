@@ -28,7 +28,11 @@ case deals
         puts nd.at_css('p/a').text
         slink = nd.at_css("p[@class='title']/a/@href") # link from store
         rlink = nd.at_css('@href') # reddit link
-        puts "Store link: #{slink.text}"
+        if slink.content == link.content
+            puts "Store link: N/A (Self-post)"
+        else
+            puts "Store link: #{slink.text}"
+        end
         puts "Reddit thread link: #{rlink.text}"
         puts nd.at_css("/div[@class='commentcount']/a").text + " comments" + " | " +
         nd.at_css("/div[@class='entry unvoted']/div/span[1]/time")
@@ -53,7 +57,11 @@ case deals
         puts dl.at_css('p/a').text
         slink = dl.at_css("p[@class='title']/a/@href")
         rlink = dl.at_css('@href')
-        puts "Store link: #{slink.text}"
+        if slink.content == link.content
+            puts "Store link: N/A (Self-post)"
+        else
+            puts "Store link: #{slink.text}"
+        end
         puts "Reddit thread link: #{rlink.text}"
         puts dl.at_css("div[@class='commentcount']/a").text + " comments" + " | " +
         dl.at_css("/div[@class='entry unvoted']/div/span[1]/span")
