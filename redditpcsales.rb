@@ -30,8 +30,8 @@ case deals
         count+=1
         puts nw.at_css('p/a').text
         slink = nw.at_css("p[@class='title']/a/@href")
-        link = nw.at_css('@href')
-        if slink.content == link.content
+        rlink = nw.at_css('@href')
+        if slink.content == rlink.content
             puts "Store link: N/A (Self-post)"
         else
             puts "Store link: #{slink.text}"
@@ -59,8 +59,8 @@ case deals
         count+=1
         puts sl.at_css('p/a').text
         slink = sl.at_css("p[@class='title']/a/@href")
-        link = sl.at_css('@href')
-        if slink.content == link.content
+        rlink = sl.at_css('@href')
+        if slink.content == rlink.content
             puts "Store link: N/A (Self-post)"
         else
             puts "Store link: #{slink.text}"

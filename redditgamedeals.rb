@@ -28,7 +28,7 @@ case deals
         puts nd.at_css('p/a').text
         slink = nd.at_css("p[@class='title']/a/@href") # link from store
         rlink = nd.at_css('@href') # reddit link
-        if slink.content == link.content
+        if slink.content == rlink.content
             puts "Store link: N/A (Self-post)"
         else
             puts "Store link: #{slink.text}"
@@ -57,7 +57,7 @@ case deals
         puts dl.at_css('p/a').text
         slink = dl.at_css("p[@class='title']/a/@href")
         rlink = dl.at_css('@href')
-        if slink.content == link.content
+        if slink.content == rlink.content
             puts "Store link: N/A (Self-post)"
         else
             puts "Store link: #{slink.text}"
