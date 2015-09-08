@@ -36,7 +36,7 @@ case deals
         else
             puts "Store link: #{slink.text}"
         end
-        puts "Reddit thread link:  #{link.text}"
+        puts "Reddit thread link:  #{rlink.text}"
         puts nw.at_css("div[@class='commentcount']/a").text + " comments | " + 
          nw.at_css("/div[@class='entry unvoted']/div/span[1]/span")
         time = nw.at_css("/div[@class='entry unvoted']/div/span[1]/time")
@@ -65,7 +65,7 @@ case deals
         else
             puts "Store link: #{slink.text}"
         end
-        puts "Reddit thread link:  #{link.text}"
+        puts "Reddit thread link:  #{rlink.text}"
         puts sl.at_css("div[@class='commentcount']/a").text + " comments | " + 
         sl.at_css("/div[@class='entry unvoted']/div/span[1]/span")
         time = sl.at_css("/div[@class='entry unvoted']/div/span[1]/time")
