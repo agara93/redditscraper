@@ -1,6 +1,8 @@
 require 'open-uri'
 require 'nokogiri'
 
+loop do
+
 count=0
 
 puts " "
@@ -10,7 +12,7 @@ puts "======================="
 puts " "
 
 
-print "What deals you want to see [recent/popular]? "
+print "What deals you want to see [recent/popular/custom]? "
 deals = gets.chomp
 
 
@@ -73,11 +75,50 @@ case deals
         puts "Time posted: #{time.text} | " + "#{timeutc.text}"
         puts " "
     end
+    when "custom"
+        puts " "
+        print "Input your custom search: "
+        search = gets.chomp
+        puts " "
+        print "Sorted by [new/hot/top]: "
+        sort = gets.chomp
+        puts " "
+        print "Timespan [day/week/month/year/all]: "
+        time = gets.chomp
+        puts " "
+        
+        srchlink = "https://www.reddit.com/r/buildapcsales/search.compact?q=#{search}&restrict_sr=on&sort=#{sort}&t=#{time}"
+        docsrch = Nokogiri::HTML(open(srchlink))
+        srchsales = docsrch.xpath("//div[@class='content']/div[@id='siteTable']/div")
+        
+        puts " "
+        puts "Search result for #{search}"
+        puts "[#{srchlink}]"
+        puts "Sorted by #{sort}"
+        puts "========================="
+        puts " "
+        srchsales[1..-1].each do |sr|
+            count+=1
+            puts sr.at_css('p/a').text
+            slink = sr.at_css("p[@class='title']/a/@href")
+            rlink = sr.at_css('@href')
+            if slink.content == rlink.content
+                puts "Store link: N/A (Self-post)"
+            else
+                puts "Store link: #{slink.text}"
+            end
+            puts "Reddit thread link:  #{rlink.text}"
+            puts sr.at_css("div[@class='commentcount']/a").text + " comments | " + 
+            sr.at_css("/div[@class='entry unvoted']/div/span[1]/span")
+            time = sr.at_css("/div[@class='entry unvoted']/div/span[1]/time")
+            timeutc = sr.at_css("/div[@class='entry unvoted']/div/span[1]/time/@title")
+            puts "Time posted: #{time.text} | " + "#{timeutc.text}"
+            puts " "
+    end
     else
         puts "Invalid choice"
 end
-
-
-
 puts "#{count} sales found"
 puts " "
+
+end #loop end
