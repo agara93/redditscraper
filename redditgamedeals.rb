@@ -37,7 +37,7 @@ case deals
         end
         puts "Reddit thread link: #{rlink.text}"
         puts nd.at_css("/div[@class='commentcount']/a").text + " comments" + " | " +
-        nd.at_css("/div[@class='entry unvoted']/div/span[1]/time")
+        nd.at_css("/div[@class='entry unvoted']/div/span[1]/span")
         time = nd.at_css("/div[@class='entry unvoted']/div/span[1]/time")
         timeutc = nd.at_css("/div[@class='entry unvoted']/div/span[1]/time/@title")
         puts "Time posted: #{time.text} | " + "#{timeutc.text}"
