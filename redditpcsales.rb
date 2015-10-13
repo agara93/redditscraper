@@ -1,4 +1,6 @@
+#http,https,ftp wrapper
 require 'open-uri'
+#gem required for scraping the web page
 require 'nokogiri'
 
 loop do
@@ -11,14 +13,14 @@ puts "Reddit Build-a-PC Sales"
 puts "======================="
 puts " "
 
-
+#prompts the user to choose which type of listing method that will be displayed
 print "What deals you want to see [recent/popular/custom]? "
 deals = gets.chomp
-
 
 case deals
     when "recent"
     
+    #fetching the url page that will be scraped
     docnew = Nokogiri::HTML(open("https://www.reddit.com/r/buildapcsales/new/.compact"))
     docnew.remove_namespaces!
     newsales = docnew.xpath("//div[@class='content']/div[@id='siteTable']/div")
@@ -77,21 +79,27 @@ case deals
     end
     when "custom"
         puts " "
+        #prompts the user to enter the search keyword
         print "Input your custom search: "
         search = gets.chomp
         puts " "
-        print "Sorted by [new/hot/top]: "
+        #prompts the user to choose the sort method
+        #new = latest, hot = popular/comments, relevance = self explanatory, top = karma points/upvotes
+        print "Sorted by [new/hot/relevance/top]: "
         sort = gets.chomp
         puts " "
         print "Timespan [day/week/month/year/all]: "
         time = gets.chomp
         puts " "
         
+        #applying the "parameters" into the search link "query"
         srchlink = "https://www.reddit.com/r/buildapcsales/search.compact?q=#{search}&restrict_sr=on&sort=#{sort}&t=#{time}"
         docsrch = Nokogiri::HTML(open(srchlink))
+        #xpath root 
         srchsales = docsrch.xpath("//div[@class='content']/div[@id='siteTable']/div")
         
         puts " "
+        
         puts "Search result for #{search}"
         puts "[#{srchlink}]"
         puts "Sorted by #{sort}"
@@ -118,6 +126,7 @@ case deals
     else
         puts "Invalid choice"
 end
+#total amount of search result
 puts "#{count} sales found"
 puts " "
 
