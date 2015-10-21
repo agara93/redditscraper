@@ -31,10 +31,14 @@ puts "#{subdesc}"
 puts "=============================================="
 puts ""
 
-print "Sort by [new/hot/custom]: "
+print "Sort by [new/hot/top/custom]: "
 sort = gets.chomp
 if sort == "new"
     subreddit="https://www.reddit.com/r/#{subr}/new/.compact"
+elsif sort == "top"
+    print "Timespan [day/week/month/year/all]: "
+    time = gets.chomp
+    subreddit="https://www.reddit.com/r/#{subr}/top/.compact?sort=top&t=#{time}"
 elsif sort == "custom"
     print "Input your custom search: "
     search = gets.chomp
