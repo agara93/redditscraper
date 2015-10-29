@@ -18,7 +18,7 @@ subreddit = "https://www.reddit.com/r/#{subr}/.compact"
 subrmetrics = "http://redditmetrics.com/r/#{subr}"
 docsubrm = Nokogiri::HTML(open(subrmetrics))
 subdesc = ""
-if subr != 'all' || 'search'
+if subr != 'all' && 'search'
     subdesc = docsubrm.at_css("/html/body/div[@class='container']/blockquote").text
 end
 
@@ -48,7 +48,7 @@ if subr == 'search'
         puts sb.at_css("p[@class='title']/a[@class='domain']").text
         puts sb.at_css("p[@class='tagline']/span[@class='score unvoted']/span[@class='number']").text + " subscribers" +                    sb.at_css("p[@class='tagline']/text()").text
         puts ""
-    end
+    end #end of subreddit results loop
     
     puts "#{count} subreddits listed"
     count = 0
@@ -72,36 +72,48 @@ if subr == 'search'
         timeutc = th.at_css("div[@class='entry unvoted']/div/span[1]/time/@title")
         puts "Time posted: #{time.text} | " + "#{timeutc.text}"
         puts ""
-    end
-end
+    end #end of thread results loop
+end #end of reddit search option condition
 
 if subr != 'search'
     puts ""
-    puts "=============================================="
-    puts "Welcome to r/#{subr}"
-    puts "[#{subreddit}]"
-    puts ""
-    puts "#{subdesc}"
-    puts "=============================================="
-    puts ""
+    if subr != 'all'
+        puts "=============================================="
+        puts "Welcome to r/#{subr}"
+        puts "[#{subreddit}]"
+        puts ""
+        puts "#{subdesc}"
+        puts "=============================================="
+        puts ""
+    else
+        puts "=============================================="
+        puts "Welcome to r/#{subr}"
+        puts "[#{subreddit}]"
+        puts ""
+        puts "Front page of Internet"
+        puts "=============================================="
+        puts ""
+    end
     
-    print "Sort by [new/hot/top/custom]: "
-    sort = gets.chomp
-    if sort == "new"
-        subreddit="https://www.reddit.com/r/#{subr}/new/.compact"
-    elsif sort == "top"
-        print "Timespan [day/week/month/year/all]: "
-        time = gets.chomp
-        subreddit="https://www.reddit.com/r/#{subr}/top/.compact?sort=top&t=#{time}"
-    elsif sort == "custom"
-        print "Input your custom search: "
-        search = gets.chomp
-        print "Sort by [new/hot/relevance/top]: "
+    if subr != 'all'
+        print "Sort by [new/hot/top/custom]: "
         sort = gets.chomp
-        print "Timespan [day/week/month/year/all]: "
-        time = gets.chomp
-        
-        subreddit="https://www.reddit.com/r/#{subr}/search.compact?q=#{search}&restrict_sr=on&sort=#{sort}&t=#{time}"
+        if sort == "new"
+            subreddit="https://www.reddit.com/r/#{subr}/new/.compact"
+        elsif sort == "top"
+            print "Timespan [day/week/month/year/all]: "
+            time = gets.chomp
+            subreddit="https://www.reddit.com/r/#{subr}/top/.compact?sort=top&t=#{time}"
+        elsif sort == "custom"
+            print "Input your custom search: "
+            search = gets.chomp
+            print "Sort by [new/hot/relevance/top]: "
+            sort = gets.chomp
+            print "Timespan [day/week/month/year/all]: "
+            time = gets.chomp
+            
+            subreddit="https://www.reddit.com/r/#{subr}/search.compact?q=#{search}&restrict_sr=on&sort=#{sort}&t=#{time}"
+        end
     end
 
     docsubr = Nokogiri::HTML(open(subreddit))
@@ -134,6 +146,32 @@ if subr != 'search'
         puts""
     end #end of threads loop
 end #end of != search condition
-
 puts "#{count} threads listed, sorted by #{sort}"
+puts ""
+
+print "Go to thread [y/n]? "
+go = gets.chomp
+
+if go == 'y' 
+    puts ""
+    print "[thread id/url_title] e.g '3mjccp/some_thread_title': "
+    title = gets.chomp
+    #print "Sort by [new/hot/relevance/top]: "
+    #sort = gets.chomp
+    thread = "https://www.reddit.com/r/#{subr}/comments/#{title}/.compact"
+    
+    puts "#{thread}"
+    
+    docthread = Nokogiri::HTML(open(thread))
+    userpost = docthread.xpath("//div[@class='content']/div[@class='commentarea']/div[@id='siteTable_t3_3n56b5']/div")
+
+    userpost.each do |po|
+        puts po.at_css("/div[@class='usertext-body']/div[@class='md']").text
+        puts po.at_css("/div[@class='entry unvoted']/div[@class='tagline']/a[@class='author may-blank id-t2_3mwus']").text
+        puts po.at_css("/div[@class='entry unvoted']/div[@class='tagline']/span[@class='score unvoted']").text + 
+             po.at_css("/p[@class='tagline']/text()").text
+    end
+end #end of thread
+
 end #end of loop
+
